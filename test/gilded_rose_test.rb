@@ -1,15 +1,7 @@
-require File.join(File.dirname(__FILE__), '../gilded_rose')
-require 'minitest/autorun'
-require 'pry'
+require 'test_helper'
+require 'gilded_rose'
 
 class TestUntitled < Minitest::Test
-
-  def test_foo
-    items = [Item.new("foo", 0, 0)]
-    GildedRose.new(items).update_quality()
-    assert_equal items[0].name, "foo"
-  end
-
   def test_report
     report_lines = []
     items = [
