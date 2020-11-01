@@ -43,6 +43,7 @@ DEPENDENCIES
   guard
   guard-minitest
   minitest
+  pry
 
 RUBY VERSION
    ruby 2.6.5p114
