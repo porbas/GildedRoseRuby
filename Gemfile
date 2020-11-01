@@ -5,3 +5,6 @@ gem 'minitest'
 gem 'guard'
 gem 'guard-minitest'
 gem 'pry'
+gem 'rake'
+
+gem 'simplecov', require: false
