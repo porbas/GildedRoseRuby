@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'pry'
+require 'test_helpers'
 
 require 'simplecov'
 SimpleCov.start 'rails'

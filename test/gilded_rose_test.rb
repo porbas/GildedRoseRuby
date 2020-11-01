@@ -2,6 +2,8 @@ require 'test_helper'
 require 'gilded_rose'
 
 class TestUntitled < Minitest::Test
+  include Assertions
+
   def test_report
     report_lines = []
     items = [
@@ -58,6 +60,21 @@ class TestUntitled < Minitest::Test
       EOT
 
     assert_equal expected, report_lines
+  end
 
+  def test_backstage_pass
+    assert_backstage_pass_quality 22, 8, 20
+    assert_backstage_pass_quality 23, 5, 20
+    assert_backstage_pass_quality 0, 0, 20
+  end
+
+  def test_aged_brie
+    assert_aged_brie_quality(22, 0, 20)
+  end
+
+  def test_generic
+    items = [Item.new("foo", -1, 3)]
+    GildedRose.new(items).update_quality
+    assert_equal(1, items[0].quality)
   end
 end
