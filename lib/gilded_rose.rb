@@ -6,7 +6,7 @@ class GildedRose
 
   def update_quality()
     @items.each do |item|
-      if !aged_brie?(item) && !backstage_pass?(item)
+      if sulfuras?(item) || generic?(item)
         if item.quality > 0
           if !sulfuras?(item)
             decrease_quality item
@@ -74,6 +74,10 @@ class GildedRose
 
   def sulfuras?(item)
     item.name == "Sulfuras, Hand of Ragnaros"
+  end
+
+  def generic?(item)
+    !(aged_brie?(item) || backstage_pass?(item) || sulfuras?(item))
   end
 end
 
