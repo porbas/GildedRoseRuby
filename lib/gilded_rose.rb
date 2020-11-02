@@ -13,16 +13,16 @@ class GildedRose
           end
         end
       else
-        if quality_less_than_50(item)
+        if quality_less_than_50?(item)
           increase_quality item
           if backstage_pass?(item)
             if item.sell_in < 11
-              if quality_less_than_50(item)
+              if quality_less_than_50?(item)
                 increase_quality item
               end
             end
             if item.sell_in < 6
-              if quality_less_than_50(item)
+              if quality_less_than_50?(item)
                 increase_quality item
               end
             end
@@ -44,7 +44,7 @@ class GildedRose
             item.quality = item.quality - item.quality
           end
         else
-          if quality_less_than_50(item)
+          if quality_less_than_50?(item)
             increase_quality item
           end
         end
@@ -60,7 +60,7 @@ class GildedRose
     item.quality -= 1
   end
 
-  def quality_less_than_50(item)
+  def quality_less_than_50?(item)
     item.quality < 50
   end
 
