@@ -4,14 +4,12 @@ class GildedRose
     @items = items
   end
 
-  def update_quality()
+  def update_quality
     @items.each do |item|
       if sulfuras?(item)
       elsif generic?(item)
         if item.quality > 0
-          if !sulfuras?(item)
-            decrease_quality item
-          end
+          decrease_quality item
         end
       else
         if quality_less_than_50?(item)
