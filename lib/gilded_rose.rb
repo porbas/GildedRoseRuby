@@ -29,16 +29,9 @@ class GildedRose
         elsif backstage_pass?(item)
           item.quality = item.quality - item.quality
         elsif sulfuras?(item)
-          if item.quality > 0
-            if !sulfuras?(item)
-              decrease_quality item
-            end
-          end
         elsif generic?(item)
           if item.quality > 0
-            if !sulfuras?(item)
-              decrease_quality item
-            end
+            decrease_quality item
           end
         end
       end
