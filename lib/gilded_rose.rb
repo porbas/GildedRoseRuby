@@ -1,7 +1,4 @@
-class GildedRose
-
-
-
+module Inventory
   class Generic
     attr_reader :quality, :sell_in
     def initialize(quality, sell_in)
@@ -39,7 +36,7 @@ class GildedRose
       end
     end
   end
-  
+
   class BackstagePass
     attr_reader :quality, :sell_in
     def initialize(quality, sell_in)
@@ -77,22 +74,26 @@ class GildedRose
     end
   end
 
+end
+
+
+class GildedRose
   class GoodsCategory
     class << self
       def build_for(item)
         if sulfuras?(item)
-          Sulfuras.new(item.quality, item.sell_in)
+          Inventory::Sulfuras.new(item.quality, item.sell_in)
         elsif aged_brie?(item)
-          AgedBrie.new(item.quality, item.sell_in)
+          Inventory::AgedBrie.new(item.quality, item.sell_in)
         elsif backstage_pass?(item)
-          BackstagePass.new(item.quality, item.sell_in)
+          Inventory::BackstagePass.new(item.quality, item.sell_in)
         else
-          Generic.new(item.quality, item.sell_in)
+          Inventory::Generic.new(item.quality, item.sell_in)
         end
       end
 
       private
-      
+
       def aged_brie?(item)
         item.name == "Aged Brie"
       end
@@ -110,7 +111,7 @@ class GildedRose
       end
     end
   end
-  
+
   def initialize(items)
     @items = items
   end
