@@ -18,6 +18,10 @@ module Inventory
     def reset
       @amount = 0
     end
+
+    def less_than_50?
+      @amount < 50
+    end
   end
 
   class Generic
@@ -69,10 +73,8 @@ module Inventory
     end
 
     def update
-      if @quality < 50
-        @quality += 1
-      end
-      if @quality < 50
+      @quality.increase
+      if @quality.less_than_50?
         if @sell_in < 11
           @quality.increase
         end
