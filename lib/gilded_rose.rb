@@ -70,10 +70,8 @@ module Inventory
 
     def update
       @quality.increase
-      if @quality.less_than_50?
-        @quality.increase if sell_in < 11
-        @quality.increase if sell_in < 6
-      end
+      @quality.increase if sell_in < 11
+      @quality.increase if sell_in < 6
       @sell_in -= 1
       @quality.reset if sell_in < 0
     end
