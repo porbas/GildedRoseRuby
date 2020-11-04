@@ -1,4 +1,5 @@
-module Inventory
+class GildedRose; end
+module GildedRose::Inventory
 
   class Quality
     attr_reader :amount
@@ -92,11 +93,11 @@ class GildedRose
       private
 
       def aged_brie?(item)
-        item.name == "Aged Brie"
+        item.name.eql? "Aged Brie"
       end
 
       def backstage_pass?(item)
-        item.name == "Backstage passes to a TAFKAL80ETC concert"
+        item.name.eql? "Backstage passes to a TAFKAL80ETC concert"
       end
 
       def generic?(item)
@@ -122,7 +123,7 @@ class GildedRose
   private
 
   def sulfuras?(item)
-    item.name == "Sulfuras, Hand of Ragnaros"
+    item.name.eql? "Sulfuras, Hand of Ragnaros"
   end
 end
 

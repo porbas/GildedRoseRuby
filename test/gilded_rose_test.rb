@@ -2,7 +2,7 @@ require 'test_helper'
 require 'gilded_rose'
 
 class TestUntitled < Minitest::Test
-  cover "Inventory"
+  cover "GildedRose"
   include Assertions
 
   def test_report
