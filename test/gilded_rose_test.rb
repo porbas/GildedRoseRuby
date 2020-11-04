@@ -85,6 +85,7 @@ class TestUntitled < Minitest::Test
   def test_generic
     assert_generic_quality(1, 0, 3)
     assert_generic_quality(2, 1, 3)
-
+    assert_generic_quality(0, 0, 0)
+    assert_generic_quality(0, 0, 1)
   end
 end
