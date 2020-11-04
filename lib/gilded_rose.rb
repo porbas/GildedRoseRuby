@@ -1,19 +1,32 @@
 module Inventory
+
+  class Quality
+    attr_reader :amount
+
+    def initialize(amount)
+      @amount = amount
+    end
+
+    def degrade
+      @amount -= 1 if @amount > 0
+    end
+  end
+
   class Generic
-    attr_reader :quality, :sell_in
+    attr_reader :sell_in
     def initialize(quality, sell_in)
-      @quality, @sell_in = quality, sell_in
+      @quality, @sell_in = Quality.new(quality), sell_in
+    end
+
+    def quality
+      @quality.amount
     end
 
     def update
-      if @quality > 0
-        @quality -= 1
-      end
+      @quality.degrade
       @sell_in = @sell_in - 1
       if @sell_in < 0
-        if @quality > 0
-          @quality -= 1
-        end
+        @quality.degrade
       end
     end
   end
