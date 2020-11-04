@@ -79,29 +79,14 @@ end
 
 class GildedRose
   class GoodsCategory
-    class << self
-      def build_for(item)
-        if aged_brie?(item)
-          Inventory::AgedBrie.new(item.quality, item.sell_in)
-        elsif backstage_pass?(item)
-          Inventory::BackstagePass.new(item.quality, item.sell_in)
-        elsif generic?(item)
-          Inventory::Generic.new(item.quality, item.sell_in)
-        end
-      end
-
-      private
-
-      def aged_brie?(item)
-        item.name.eql? "Aged Brie"
-      end
-
-      def backstage_pass?(item)
-        item.name.eql? "Backstage passes to a TAFKAL80ETC concert"
-      end
-
-      def generic?(item)
-        !(aged_brie?(item) || backstage_pass?(item))
+    def build_for(item)
+      case item.name
+      when /Backstage passes/
+        Inventory::BackstagePass.new(item.quality, item.sell_in)
+      when /Aged Brie/
+        Inventory::AgedBrie.new(item.quality, item.sell_in)
+      else
+        Inventory::Generic.new(item.quality, item.sell_in)
       end
     end
   end
@@ -113,7 +98,7 @@ class GildedRose
   def update_quality
     @items.each do |item|
       next if sulfuras?(item)
-      obj = GoodsCategory.build_for(item)
+      obj = GoodsCategory.new.build_for(item)
       obj.update
       item.quality = obj.quality
       item.sell_in = obj.sell_in
