@@ -7,4 +7,5 @@ gem 'guard-minitest'
 gem 'pry'
 gem 'rake'
 
-gem 'simplecov', require: false
+gem 'simplecov', require: false, group: :test
+gem 'mutant-minitest', '0.8.24'

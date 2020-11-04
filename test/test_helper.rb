@@ -7,4 +7,5 @@ SimpleCov.start 'rails'
 
 #minitest HAVE TO been required after simplecov to get coverage work
 require 'minitest/autorun'
+require 'mutant/minitest/coverage'
 
