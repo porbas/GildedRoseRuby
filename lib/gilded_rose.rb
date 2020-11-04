@@ -37,7 +37,7 @@ module Inventory
     def update
       @quality.degrade
       @sell_in -= 1
-      @quality.degrade if @sell_in < 0
+      @quality.degrade if sell_in < 0
     end
   end
 

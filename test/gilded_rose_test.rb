@@ -83,8 +83,8 @@ class TestUntitled < Minitest::Test
   end
 
   def test_generic
-    items = [Item.new("foo", -1, 3)]
-    GildedRose.new(items).update_quality
-    assert_equal(1, items[0].quality)
+    assert_generic_quality(1, 0, 3)
+    assert_generic_quality(2, 1, 3)
+
   end
 end

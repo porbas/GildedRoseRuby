@@ -10,4 +10,10 @@ module Assertions
     GildedRose.new(items).update_quality
     assert_equal(expected, items[0].quality)
   end
+
+  def assert_generic_quality(expected, sell_in, quality)
+    items = [Item.new("foo", sell_in, quality)]
+    GildedRose.new(items).update_quality
+    assert_equal(expected, items[0].quality)
+  end
 end
