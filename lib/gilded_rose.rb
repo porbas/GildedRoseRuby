@@ -27,12 +27,12 @@ module GildedRose::Inventory
       new
     end
 
-    def update(_, quality)
+    def update(quality)
       quality.degrade
     end
 
     class Expired
-      def update(_, quality)
+      def update(quality)
         quality.degrade
         quality.degrade
       end
@@ -45,12 +45,12 @@ module GildedRose::Inventory
       new
     end
 
-    def update(_, quality)
+    def update(quality)
       quality.increase
     end
 
     class Expired
-      def update(_, quality)
+      def update(quality)
         quality.increase
         quality.increase
       end
@@ -65,18 +65,18 @@ module GildedRose::Inventory
       new
     end
 
-    def update(sell_in, quality)
+    def update(quality)
       quality.increase
     end
 
     class Expired
-      def update(_, quality)
+      def update(quality)
         quality.reset
       end
     end
 
     class FiveDaysToExpire
-      def update(_, quality)
+      def update(quality)
         quality.increase
         quality.increase
         quality.increase
@@ -84,7 +84,7 @@ module GildedRose::Inventory
     end
 
     class TenDaysToExpire
-      def update(_, quality)
+      def update(quality)
         quality.increase
         quality.increase
       end
@@ -117,7 +117,7 @@ class GildedRose
       item.sell_in -=1
       quality = Inventory::Quality.new(item.quality)
       obj = GoodsCategory.new.build_for(item)
-      obj.update(item.sell_in, quality)
+      obj.update(quality)
       item.quality = quality.amount
     end
   end
