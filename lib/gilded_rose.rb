@@ -22,29 +22,38 @@ module GildedRose::Inventory
   end
 
   class Generic
-    def update(sell_in, quality)
+    def self.build(sell_in)
+      return Expired.new if sell_in < 0
+      new
+    end
+
+    def update(_, quality)
       quality.degrade
-      quality.degrade if sell_in < 0
+    end
+
+    class Expired
+      def update(_, quality)
+        quality.degrade
+        quality.degrade
+      end
     end
   end
 
   class AgedBrie
     def self.build(sell_in)
-      if sell_in < 0
-        Expired.new
-      else
-        new
-      end
+      return Expired.new if sell_in < 0
+      new
     end
+
+    def update(_, quality)
+      quality.increase
+    end
+
     class Expired
       def update(_, quality)
         quality.increase
         quality.increase
       end
-    end
-
-    def update(_, quality)
-      quality.increase
     end
   end
 
@@ -69,7 +78,7 @@ class GildedRose
       when /Aged Brie/
         Inventory::AgedBrie.build(item.sell_in)
       else
-        Inventory::Generic.new
+        Inventory::Generic.build(item.sell_in)
       end
     end
   end
