@@ -22,53 +22,38 @@ module GildedRose::Inventory
   end
 
   class Generic
-    def initialize(quality)
-      @quality = quality
-    end
-
-    def update(sell_in)
-      @quality.degrade
-      @quality.degrade if sell_in < 0
+    def update(sell_in, quality)
+      quality.degrade
+      quality.degrade if sell_in < 0
     end
   end
 
   class AgedBrie
-    def self.build(quality, sell_in)
+    def self.build(sell_in)
       if sell_in < 0
-        Expired.new(quality)
+        Expired.new
       else
-        new(quality)
+        new
       end
     end
     class Expired
-      def initialize(quality)
-        @quality = quality
-      end
-      def update(_)
-        @quality.increase
-        @quality.increase
+      def update(_, quality)
+        quality.increase
+        quality.increase
       end
     end
 
-    def initialize(quality)
-      @quality = quality
-    end
-
-    def update(_)
-      @quality.increase
+    def update(_, quality)
+      quality.increase
     end
   end
 
   class BackstagePass
-    def initialize(quality)
-      @quality = quality
-    end
-
-    def update(sell_in)
-      @quality.increase
-      @quality.increase if sell_in < 10
-      @quality.increase if sell_in < 5
-      @quality.reset if sell_in < 0
+    def update(sell_in, quality)
+      quality.increase
+      quality.increase if sell_in < 10
+      quality.increase if sell_in < 5
+      quality.reset if sell_in < 0
     end
   end
 
@@ -77,14 +62,14 @@ end
 
 class GildedRose
   class GoodsCategory
-    def build_for(item, quality)
+    def build_for(item)
       case item.name
       when /Backstage passes/
-        Inventory::BackstagePass.new(quality)
+        Inventory::BackstagePass.new
       when /Aged Brie/
-        Inventory::AgedBrie.build(quality, item.sell_in)
+        Inventory::AgedBrie.build(item.sell_in)
       else
-        Inventory::Generic.new(quality)
+        Inventory::Generic.new
       end
     end
   end
@@ -98,8 +83,8 @@ class GildedRose
       next if sulfuras?(item)
       item.sell_in -=1
       quality = Inventory::Quality.new(item.quality)
-      obj = GoodsCategory.new.build_for(item, quality)
-      obj.update(item.sell_in)
+      obj = GoodsCategory.new.build_for(item)
+      obj.update(item.sell_in, quality)
       item.quality = quality.amount
     end
   end
