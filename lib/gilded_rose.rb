@@ -26,10 +26,6 @@ module GildedRose::Inventory
       @quality = quality
     end
 
-    def quality
-      @quality.amount
-    end
-
     def update(sell_in)
       @quality.degrade
       @quality.degrade if sell_in < 0
@@ -48,9 +44,6 @@ module GildedRose::Inventory
       def initialize(quality)
         @quality = quality
       end
-      def quality
-        @quality.amount
-      end
       def update(_)
         @quality.increase
         @quality.increase
@@ -61,10 +54,6 @@ module GildedRose::Inventory
       @quality = quality
     end
 
-    def quality
-      @quality.amount
-    end
-
     def update(_)
       @quality.increase
     end
@@ -73,10 +62,6 @@ module GildedRose::Inventory
   class BackstagePass
     def initialize(quality)
       @quality = quality
-    end
-
-    def quality
-      @quality.amount
     end
 
     def update(sell_in)
@@ -92,8 +77,7 @@ end
 
 class GildedRose
   class GoodsCategory
-    def build_for(item)
-      quality = Inventory::Quality.new(item.quality)
+    def build_for(item, quality)
       case item.name
       when /Backstage passes/
         Inventory::BackstagePass.new(quality)
@@ -113,9 +97,10 @@ class GildedRose
     @items.each do |item|
       next if sulfuras?(item)
       item.sell_in -=1
-      obj = GoodsCategory.new.build_for(item)
+      quality = Inventory::Quality.new(item.quality)
+      obj = GoodsCategory.new.build_for(item, quality)
       obj.update(item.sell_in)
-      item.quality = obj.quality
+      item.quality = quality.amount
     end
   end
 
