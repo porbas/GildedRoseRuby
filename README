@@ -1,0 +1,4 @@
+how to run mutant:
+
+ bundle exec mutant -r ./lib/gilded_rose.rb -I test -I lib --use minitest GildedRose*
+
