@@ -58,14 +58,38 @@ module GildedRose::Inventory
   end
 
   class BackstagePass
+    def self.build(sell_in)
+      return Expired.new          if sell_in < 0
+      return FiveDaysToExpire.new if sell_in < 5
+      return TenDaysToExpire.new  if sell_in < 10
+      new
+    end
+
     def update(sell_in, quality)
       quality.increase
-      quality.increase if sell_in < 10
-      quality.increase if sell_in < 5
-      quality.reset if sell_in < 0
+    end
+
+    class Expired
+      def update(_, quality)
+        quality.reset
+      end
+    end
+
+    class FiveDaysToExpire
+      def update(_, quality)
+        quality.increase
+        quality.increase
+        quality.increase
+      end
+    end
+
+    class TenDaysToExpire
+      def update(_, quality)
+        quality.increase
+        quality.increase
+      end
     end
   end
-
 end
 
 
@@ -74,7 +98,7 @@ class GildedRose
     def build_for(item)
       case item.name
       when /Backstage passes/
-        Inventory::BackstagePass.new
+        Inventory::BackstagePass.build(item.sell_in)
       when /Aged Brie/
         Inventory::AgedBrie.build(item.sell_in)
       else
