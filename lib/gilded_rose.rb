@@ -23,7 +23,7 @@ module GildedRose::Inventory
 
   class Generic
     def initialize(quality)
-      @quality = Quality.new(quality)
+      @quality = quality
     end
 
     def quality
@@ -46,7 +46,7 @@ module GildedRose::Inventory
     end
     class Expired
       def initialize(quality)
-        @quality = Quality.new(quality)
+        @quality = quality
       end
       def quality
         @quality.amount
@@ -58,7 +58,7 @@ module GildedRose::Inventory
     end
 
     def initialize(quality)
-      @quality = Quality.new(quality)
+      @quality = quality
     end
 
     def quality
@@ -72,7 +72,7 @@ module GildedRose::Inventory
 
   class BackstagePass
     def initialize(quality)
-      @quality = Quality.new(quality)
+      @quality = quality
     end
 
     def quality
@@ -93,13 +93,14 @@ end
 class GildedRose
   class GoodsCategory
     def build_for(item)
+      quality = Inventory::Quality.new(item.quality)
       case item.name
       when /Backstage passes/
-        Inventory::BackstagePass.new(item.quality)
+        Inventory::BackstagePass.new(quality)
       when /Aged Brie/
-        Inventory::AgedBrie.build(item.quality, item.sell_in)
+        Inventory::AgedBrie.build(quality, item.sell_in)
       else
-        Inventory::Generic.new(item.quality)
+        Inventory::Generic.new(quality)
       end
     end
   end
