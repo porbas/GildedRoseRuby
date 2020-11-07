@@ -22,7 +22,6 @@ module GildedRose::Inventory
   end
 
   class Generic
-    attr_reader :sell_in
     def initialize(quality, sell_in)
       @quality, @sell_in = Quality.new(quality), sell_in
     end
@@ -33,13 +32,11 @@ module GildedRose::Inventory
 
     def update
       @quality.degrade
-      @sell_in -= 1
-      @quality.degrade if sell_in < 0
+      @quality.degrade if @sell_in < 0
     end
   end
 
   class AgedBrie
-    attr_reader :sell_in
     def initialize(quality, sell_in)
       @quality, @sell_in = Quality.new(quality), sell_in
     end
@@ -50,13 +47,11 @@ module GildedRose::Inventory
 
     def update
       @quality.increase
-      @sell_in -= 1
-      @quality.increase if sell_in < 0
+      @quality.increase if @sell_in < 0
     end
   end
 
   class BackstagePass
-    attr_reader :sell_in
     def initialize(quality, sell_in)
       @quality, @sell_in = Quality.new(quality), sell_in
     end
@@ -67,10 +62,9 @@ module GildedRose::Inventory
 
     def update
       @quality.increase
-      @quality.increase if sell_in < 11
-      @quality.increase if sell_in < 6
-      @sell_in -= 1
-      @quality.reset if sell_in < 0
+      @quality.increase if @sell_in < 10
+      @quality.increase if @sell_in < 5
+      @quality.reset if @sell_in < 0
     end
   end
 
@@ -98,10 +92,10 @@ class GildedRose
   def update_quality
     @items.each do |item|
       next if sulfuras?(item)
+      item.sell_in -=1
       obj = GoodsCategory.new.build_for(item)
       obj.update
       item.quality = obj.quality
-      item.sell_in = obj.sell_in
     end
   end
 
