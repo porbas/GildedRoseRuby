@@ -5,6 +5,7 @@ gem 'minitest'
 gem 'guard'
 gem 'guard-minitest'
 gem 'pry'
+gem 'pry-byebug'
 gem 'rake'
 
 gem 'simplecov', require: false, group: :test
