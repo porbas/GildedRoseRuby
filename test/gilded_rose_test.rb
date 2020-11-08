@@ -16,8 +16,7 @@ class TestUntitled < Minitest::Test
       Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=15, quality=20),
       Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=10, quality=49),
       Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=5, quality=49),
-      # This Conjured item does not work properly yet
-      Item.new(name="Conjured Mana Cake", sell_in=3, quality=6), # <-- :O
+      Item.new(name="Conjured Mana Cake", sell_in=3, quality=6),
     ]
 
     days = 2
@@ -57,7 +56,7 @@ class TestUntitled < Minitest::Test
       Backstage passes to a TAFKAL80ETC concert, 14, 21
       Backstage passes to a TAFKAL80ETC concert, 9, 50
       Backstage passes to a TAFKAL80ETC concert, 4, 50
-      Conjured Mana Cake, 2, 5
+      Conjured Mana Cake, 2, 4
       EOT
 
     assert_equal expected, report_lines
@@ -83,9 +82,20 @@ class TestUntitled < Minitest::Test
   end
 
   def test_generic
+    assert_generic_quality(1, -1, 3)
     assert_generic_quality(1, 0, 3)
     assert_generic_quality(2, 1, 3)
     assert_generic_quality(0, 0, 0)
     assert_generic_quality(0, 0, 1)
+  end
+
+  def test_conjured
+    assert_conjured_quality(7, 3, 9)
+    assert_conjured_quality(0, -1, 3)
+    assert_conjured_quality(0, 0, 3)
+    assert_conjured_quality(1, 1, 3)
+    assert_conjured_quality(0, 0, 0)
+    assert_conjured_quality(0, 0, 1)
+    assert_conjured_quality(0, 0, 4)
   end
 end

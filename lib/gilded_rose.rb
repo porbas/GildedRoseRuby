@@ -39,6 +39,27 @@ module GildedRose::Inventory
     end
   end
 
+  class Conjured
+    def self.build(sell_in)
+      return Expired.new if sell_in < 0
+      new
+    end
+
+    def update(quality)
+      quality.degrade
+      quality.degrade
+    end
+
+    class Expired
+      def update(quality)
+        quality.degrade
+        quality.degrade
+        quality.degrade
+        quality.degrade
+      end
+    end
+  end
+
   class AgedBrie
     def self.build(sell_in)
       return Expired.new if sell_in < 0
@@ -101,6 +122,8 @@ class GildedRose
         Inventory::BackstagePass.build(item.sell_in)
       when /Aged Brie/
         Inventory::AgedBrie.build(item.sell_in)
+      when /Conjured/
+        Inventory::Conjured.build(item.sell_in)
       else
         Inventory::Generic.build(item.sell_in)
       end
